@@ -78,14 +78,14 @@ const data = [{
         ]
     }]
 }]
-const answer = []
+const skMembers = []
 function findSkMembers(array) {
     for (let obj of array) {
         if (obj['type'] === 'sk') {
-            answer.push(obj['name'])
+            skMembers.push(obj['name'])
         }
         findSkMembers(obj['childnode'])
     }
 }
 findSkMembers(data)
-console.log(answer)
+console.log(skMembers)
