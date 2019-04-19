@@ -30,7 +30,6 @@ const todos = {
     },
 
     show(statusType) {
-        console.log(this)
         const statusOptions = {
             all: this.getAllStatus(this.todolists),
             todo: this.getStatusByType(this.todolists, statusType),
@@ -57,14 +56,16 @@ const todos = {
         setTimeout(() => this.show('all'), 1000)
     },
 
-    getIdOfTodolist() {
-
-    },
-
     delete(id) {
-        console.log(this)
-        // const str = `${}`
-        console.log('done')
+        const index = this.todolists.findIndex(v => v.id === id)
+        const {
+            name,
+            status
+        } = this.todolists[index]
+        this.todolists.splice(index, 1)
+        const str = `${name} ${status}가 목록에서 삭제되었습니다.`
+        console.log(str)
+        setTimeout(() => this.show('all'), 1000)
     },
 
     update() {
