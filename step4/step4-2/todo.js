@@ -24,11 +24,20 @@ todos.getAllStatus = function (list) {
     return str
 }
 
-todos.getStatusByType = () => {
-
+todos.getStatusByType = function (list, statusType) {
+    const counts = this.countStatus(list, statusType)
+    const str = `${statusType}리스트 :  총 ${counts}건 : ` + list.filter(v => v.status === statusType).map(v => `'${v.name}, ${v.id}번'`).join(', ')
+    return str
 }
 
-todos.show = (statusType) => {
+todos.show = function (statusType) {
+    const statusOptions = {
+        all: this.getAllStatus(this.todolists),
+        todo: this.getStatusByType(this.todolists, statusType),
+        doing: this.getStatusByType(this.todolists, statusType),
+        done: this.getStatusByType(this.todolists, statusType)
+    }
+    console.log(statusOptions[statusType])
     console.log('done')
 }
 
@@ -54,7 +63,7 @@ const start = () => {
         if (command === 'quit' || command === 'q') rl.close()
         command = todos.getParsedCommand(command, '$')
         const commandType = command.shift()
-        todos[commandType]()
+        todos[commandType](...command)
         rl.prompt()
     })
     rl.on('close', () => {
