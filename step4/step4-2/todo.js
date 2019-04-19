@@ -38,12 +38,24 @@ todos.show = function (statusType) {
         done: this.getStatusByType(this.todolists, statusType)
     }
     console.log(statusOptions[statusType])
-    console.log('done')
+    setTimeout(() => rl.prompt(), 0)
+
 }
 
-todos.add = () => {
-    console.log('done')
-
+todos.add = function (name, tags) {
+    const id = this.generateID()
+    tags = tags.replace(/\[|\]|\"|\'/g, '').split(',')
+    this.todolists.push(
+        {
+            id,
+            name,
+            tags,
+            status: 'todo'
+        }
+    )
+    const str = `${name} 1개가 추가됐습니다.(id : ${id})`
+    console.log(str)
+    setTimeout(() => this.show('all'), 1000)
 }
 
 todos.delete = () => {
@@ -64,7 +76,6 @@ const start = () => {
         command = todos.getParsedCommand(command, '$')
         const commandType = command.shift()
         todos[commandType](...command)
-        rl.prompt()
     })
     rl.on('close', () => {
         process.exit()
