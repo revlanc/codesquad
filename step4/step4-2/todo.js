@@ -63,14 +63,18 @@ const todos = {
             status
         } = this.todolists[index]
         this.todolists.splice(index, 1)
-        const str = `${name} ${status}가 목록에서 삭제되었습니다.`
+        const str = `${name} ${status}이(가) 목록에서 삭제되었습니다.`
         console.log(str)
         setTimeout(() => this.show('all'), 1000)
     },
 
-    update() {
-        console.log('done')
-
+    update(id, status) {
+        const index = this.todolists.findIndex(v => v.id === id)
+        this.todolists[index].status = status
+        const name = this.todolists.name
+        const str = `${name}이(가) ${status}로 상태가 변경되었습니다.`
+        console.log(str)
+        setTimeout(() => this.show('all'), 1000)
     }
 }
 
