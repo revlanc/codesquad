@@ -3,7 +3,7 @@ const data = require('./data')
 const countStatus = (status) => data.filter(obj => obj.status === status).length
 
 const printStatus = () => {
-    let counts = {
+    const counts = {
         'todo': countStatus('todo'),
         'doing': countStatus('doing'),
         'done': countStatus('done')
