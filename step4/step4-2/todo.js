@@ -14,9 +14,13 @@ const getParsedCommand = (command, char) => {
 }
 
 const start = () => {
-    rl.setPrompt('명령어를 입력해주세요 :')
+    rl.setPrompt('명령어를 입력해주세요 : ')
     rl.prompt()
     rl.on('line', (command) => {
+        if (command === 'quit' || command === 'q') rl.close()
+        command = getParsedCommand(command, '$')
+        const commandType = command.shift()
+        todos[commandType]()
         rl.prompt()
     })
     rl.on('close', () => {
@@ -25,22 +29,25 @@ const start = () => {
 }
 
 const todos = {
-    todolists =[]
+    todolists: []
 }
 
 todos.show = () => {
-
+    console.log('done')
 }
 
 todos.add = () => {
+    console.log('done')
 
 }
 
 todos.delete = () => {
+    console.log('done')
 
 }
 
 todos.update = () => {
+    console.log('done')
 
 }
 
