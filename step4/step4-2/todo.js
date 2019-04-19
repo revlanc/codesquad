@@ -5,67 +5,72 @@ const rl = readline.createInterface({
 })
 
 const todos = {
-    todolists: []
-}
+    todolists: [],
 
-todos.generateID = () => ((1 + Math.random()) * 0x10000 | 0).toString(15).substring(1)
+    generateID() { return ((1 + Math.random()) * 0x10000 | 0).toString(15).substring(1) },
 
-todos.getParsedCommand = (command, char) => command = command.split(char)
+    getParsedCommand(command, char) { return command = command.split(char) },
 
-todos.countStatus = (list, statusType) => list.filter(v => v.status === statusType).length
+    countStatus(list, statusType) { return list.filter(v => v.status === statusType).length },
 
-todos.getAllStatus = function (list) {
-    const counts = {
-        todo: this.countStatus(list, 'todo'),
-        doing: this.countStatus(list, 'doing'),
-        done: this.countStatus(list, 'done')
-    }
-    const str = '현재상태 : ' + Object.entries(counts).map(([key, value]) => `${key}: ${value}개`).join(', ')
-    return str
-}
-
-todos.getStatusByType = function (list, statusType) {
-    const counts = this.countStatus(list, statusType)
-    const str = `${statusType}리스트 :  총 ${counts}건 : ` + list.filter(v => v.status === statusType).map(v => `'${v.name}, ${v.id}번'`).join(', ')
-    return str
-}
-
-todos.show = function (statusType) {
-    const statusOptions = {
-        all: this.getAllStatus(this.todolists),
-        todo: this.getStatusByType(this.todolists, statusType),
-        doing: this.getStatusByType(this.todolists, statusType),
-        done: this.getStatusByType(this.todolists, statusType)
-    }
-    console.log(statusOptions[statusType])
-    setTimeout(() => rl.prompt(), 0)
-
-}
-
-todos.add = function (name, tags) {
-    const id = this.generateID()
-    tags = tags.replace(/\[|\]|\"|\'/g, '').split(',')
-    this.todolists.push(
-        {
-            id,
-            name,
-            tags,
-            status: 'todo'
+    getAllStatus(list) {
+        const counts = {
+            todo: this.countStatus(list, 'todo'),
+            doing: this.countStatus(list, 'doing'),
+            done: this.countStatus(list, 'done')
         }
-    )
-    const str = `${name} 1개가 추가됐습니다.(id : ${id})`
-    console.log(str)
-    setTimeout(() => this.show('all'), 1000)
-}
+        const str = '현재상태 : ' + Object.entries(counts).map(([key, value]) => `${key}: ${value}개`).join(', ')
+        return str
+    },
 
-todos.delete = () => {
-    console.log('done')
+    getStatusByType(list, statusType) {
+        const counts = this.countStatus(list, statusType)
+        const str = `${statusType}리스트 :  총 ${counts}건 : ` + list.filter(v => v.status === statusType).map(v => `'${v.name}, ${v.id}번'`).join(', ')
+        return str
+    },
 
-}
+    show(statusType) {
+        console.log(this)
+        const statusOptions = {
+            all: this.getAllStatus(this.todolists),
+            todo: this.getStatusByType(this.todolists, statusType),
+            doing: this.getStatusByType(this.todolists, statusType),
+            done: this.getStatusByType(this.todolists, statusType)
+        }
+        console.log(statusOptions[statusType])
+        rl.prompt()
+    },
 
-todos.update = () => {
-    console.log('done')
+    add(name, tags) {
+        const id = this.generateID()
+        tags = tags.replace(/\[|\]|\"|\'/g, '').split(',')
+        this.todolists.push(
+            {
+                id,
+                name,
+                tags,
+                status: 'todo'
+            }
+        )
+        const str = `${name} 1개가 추가됐습니다.(id : ${id})`
+        console.log(str)
+        setTimeout(() => this.show('all'), 1000)
+    },
 
+    getIdOfTodolist() {
+
+    },
+
+    delete(id) {
+        console.log(this)
+        // const str = `${}`
+        console.log('done')
+    },
+
+    update() {
+        console.log('done')
+
+    }
 }
 
 const start = () => {
