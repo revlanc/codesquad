@@ -15,6 +15,7 @@ const myReduce = (arr, callback, initialValue) => {
 const arr1 = [1, 2, 3, 4, 5]
 console.log(myReduce(arr1, (acc, cur) => acc + cur))
 console.log(myReduce(arr1, (acc, cur) => acc * cur))
+console.log(myReduce(arr1, (acc, cur) => acc + cur, ''))
 console.log(myReduce(arr1, function (acc, cur) { if (cur % 2 !== 0) { acc.push(cur * 2) } return acc }, []))
 
 const arr2 = [[1, 2], [3, 4], [5, 6]]
