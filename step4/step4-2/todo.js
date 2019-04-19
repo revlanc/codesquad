@@ -14,8 +14,21 @@ todos.getParsedCommand = (command, char) => command = command.split(char)
 
 todos.countStatus = (list, statusType) => list.filter(v => v.status === statusType).length
 
-todos.show = (status) => {
+todos.getAllStatus = function (list) {
+    const counts = {
+        todo: this.countStatus(list, 'todo'),
+        doing: this.countStatus(list, 'doing'),
+        done: this.countStatus(list, 'done')
+    }
+    const str = '현재상태 : ' + Object.entries(counts).map(([key, value]) => `${key}: ${value}개`).join(', ')
+    return str
+}
 
+todos.getStatusByType = () => {
+
+}
+
+todos.show = (statusType) => {
     console.log('done')
 }
 
