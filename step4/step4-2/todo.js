@@ -5,7 +5,7 @@ const rl = readline.createInterface({
 })
 
 const generateID = () => {
-
+    return ((1 + Math.random()) * 0x10000 | 0).toString(15).substring(1)
 }
 
 const getParsedCommand = (command, char) => {
