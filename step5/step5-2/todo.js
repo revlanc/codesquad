@@ -21,19 +21,16 @@ Model.prototype = {
             id
         }
         this.todoList.push(todoData)
-        this.saveTodoList()
     },
     deleteData(id) {
         const targetIndex = this.getIndex(id)
         this.todoList.splice(targetIndex, 1)
-        this.saveTodoList()
     },
     updateData(id, status) {
         const targetIndex = this.getIndex(id);
         let targetData = this.todoList[targetIndex];
         if (targetData.status === status) throw Error(id)
         targetData.status = status
-        this.saveTodoList()
     },
     makeId() {
         return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1)
