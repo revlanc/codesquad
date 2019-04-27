@@ -9,11 +9,11 @@ Model.prototype = {
         const targetData = this.todoList.filter(todoData => todoData[key] === value).shift();
         return targetData.id;
     },
-    addData(name, tags, id) {
+    addData(name, tags, id, status = 'todo') {
         const newData = {
             name,
             tags: tags.replace(/\[|\]|\"|\'/g, '').split(','),
-            status: 'todo',
+            status: status,
             id: id
         }
         this.todoList.push(newData);
@@ -24,7 +24,7 @@ Model.prototype = {
         const targetIndex = this.getIndex(id);
         const targetData = this.todoList[targetIndex];
         const [targetTags] = targetData.tags
-        this.saveHistory('addData', [targetData.name, targetTags, targetData.id]);
+        this.saveHistory('addData', [targetData.name, targetTags, targetData.id, targetData.status]);
         this.todoList.splice(targetIndex, 1);
         return targetData;
     },
@@ -50,22 +50,25 @@ Model.prototype = {
         if (idx === -1) throw Error('noMatchedIdError')
         return idx
     },
-    //recentData = object
+    //keyData = object
     saveHistory(keyCommand, keyData) {
         if (this.historyStack.length >= this.maxHistoryCapacity) this.historyStack.shift();
         this.historyStack.push({ keyCommand, keyData })
-        console.log(this.historyStack)
     },
     //keyCommand = string  //keyData = array
     undoData() {
-        if(this.historyStack.length === 0) return console.log('emptyStack')
-        const {keyCommand, keyData} = this.historyStack.pop();
-        this[keyCommand](...keyData)
-        this.historyStack.pop()
-        return ;
+        if (this.historyStack.length === 0) throw Error('emptyStackError');
+        const previousData = this.historyStack.pop();
+        const { keyCommand, keyData } = previousData;
+        const newData = this[keyCommand](...keyData);
+        this.redoStack.push(this.historyStack.pop());
+        return { keyCommand, newData };
     },
     redoData() {
-        console.log(this.todoList, 'q', this.historyStack)
+        if (this.redoStack.length === 0) throw Error('emptyStackError')
+        const { keyCommand, keyData } = this.redoStack.pop();
+        const newData = this[keyCommand](...keyData);
+        return { keyCommand, newData };
     }
 }
 

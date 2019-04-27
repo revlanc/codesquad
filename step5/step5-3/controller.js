@@ -44,12 +44,12 @@ Controller.prototype = {
         setTimeout(() => { this.showAll() }, 1000);
     },
     undo() {
-        const changedData = this.model.undoData();
-        this.view.showUndoResult(changedData);
+        const data = this.model.undoData();
+        this.view.showUndoRedoResult(data);
     },
-    redo() { //추가
-        this.model.redoData();
-        this.view.showRedoResult();
+    redo() {
+        const data = this.model.redoData();
+        this.view.showUndoRedoResult(data);
     }
 }
 

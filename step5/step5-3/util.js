@@ -1,6 +1,7 @@
 const Util = function () { }
 Util.prototype = {
     parseCommand(command) {
+        if(command === 'undo' || command === 'redo') return [command];
         if (!/\$/.test(command)) throw Error('commandCharError')
         return command.split('$');
     },
@@ -23,8 +24,8 @@ Util.prototype = {
             addData: 2,
             deleteData: 1,
             updateData: 2,
-            undo: 1,
-            redo: 1
+            undo: 0,
+            redo: 0
         }
         if (argsNumber[keyCommand] !== restCommand.length) throw Error('argsNumberError');
     }

@@ -22,15 +22,15 @@ View.prototype = {
         const { name, status } = changedData;
         console.log(this.fontColor, `${name}이(가) ${status}으로 상태가 변경되었습니다.`)
     },
-    showUndoResult(changedData) {
-
-        console.log('취소됨')
-        //delete를 undo하면 'id, name가 삭제에서 status로 변경'
-        //add를 undo하면 'id, name가 삭제되었습니다'
-        //update를 undo하면 'id, name가 status2에서 status1으로 변경'
-    },
-    showRedoResult() {
-        console.log('redo됨')
+    showUndoRedoResult(data) {
+        const { keyCommand, newData } = data;
+        const { id, name, status } = newData;
+        const msgMap = {
+            deleteData: `${id, name}가 삭제되었습니다.`,
+            addData: `${id, name}가 삭제에서 ${status}로 변경되었습니다.`,
+            updateData: `${id, name}가 ${status}로 상태가 변경되었습니다.`
+        }
+        console.log(this.fontColor, msgMap[keyCommand])
     }
 }
 

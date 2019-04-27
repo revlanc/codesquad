@@ -32,12 +32,12 @@ const app = {
                 command = this.util.parseCommand(command)
                 const keyCommand = this.util.getKeyCommand(command);
                 const restCommand = command;
-                console.log(keyCommand, restCommand)
+                console.log('입력한 명령: ',keyCommand, restCommand)
                 this.util.checkArgsNumber(keyCommand, restCommand);
                 this.controller[keyCommand](...restCommand);
             }
             catch (e) {
-                // console.log(e, e.message)
+                console.log(e)
                 this.errorHandler.handleError(e.message)
             }
             finally {
