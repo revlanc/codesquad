@@ -22,37 +22,30 @@ Controller.prototype = {
         this.showEachData(type)
     },
     addData(name, tags) {
-        this.model.addData(name, tags);
-        const id = this.model.getId('name', name)
-        this.view.showAddResult(name, id);
-        this.showFinalResult()
+        const id = this.model.makeId()
+        const changedData = this.model.addData(name, tags, id);
+        this.view.showAddResult(changedData);
+        this.showFinalResult();
     },
     deleteData(id) {
-        const idx = this.model.getIndex(id);
-        const {
-            name,
-            status
-        } = this.model.todoList[idx]
-        this.model.deleteData(id)
-        this.view.showDeleteResult(name, status)
-        this.showFinalResult()
+        const changedData = this.model.deleteData(id)
+        this.view.showDeleteResult(changedData);
+        this.showFinalResult();
     },
     updateData(id, status) {
         if (!/^(todo|doing|done)$/.test(status)) throw Error('UpdateStatusError')
-        this.model.updateData(id, status);
-        const idx = this.model.getIndex(id)
-        const name = this.model.todoList[idx].name
+        const changedData = this.model.updateData(id, status);
         setTimeout(() => {
-            this.view.showUpdateResult(name, status)
-            this.showFinalResult()
+            this.view.showUpdateResult(changedData);
+            this.showFinalResult();
         }, 3000);
     },
     showFinalResult() {
         setTimeout(() => { this.showAll() }, 1000);
     },
     undo() {
-        this.model.undoData();
-        this.view.showUndoResult();
+        const changedData = this.model.undoData();
+        this.view.showUndoResult(changedData);
     },
     redo() { //추가
         this.model.redoData();
