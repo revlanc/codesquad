@@ -8,6 +8,7 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
+
 const fontColorBlue = '\x1b[36m%s\x1b[0m';
 const fontColorRed = '\x1b[31m%s\x1b[0m';
 const initialData = [];
@@ -36,13 +37,8 @@ const app = {
                 this.controller[keyCommand](...restCommand);
             }
             catch (e) {
-                console.log(e, e.message)
-                const errorType = this.errorHandler.getErrorType(e.message)
-                if (errorType) {
-                    this.errorHandler[errorType](e.message)
-                } else {
-                    this.errorHandler.printOtherErrors();
-                }
+                // console.log(e, e.message)
+                this.errorHandler.handleError(e.message)
             }
             finally {
                 setTimeout(() => rl.prompt(), 0)
@@ -61,6 +57,7 @@ app.start()
 //async await 활용하여 rl.prompt finally에 비동기 처리하기
 //class문법으로 마이그레이션
 
+//error던질때 텍스트리터럴로 필요한 메시지 던지는 방법 고려
 //error객체 console.log 합치기
 //초기데이터 받기
 

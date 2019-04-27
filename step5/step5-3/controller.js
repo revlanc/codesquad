@@ -18,7 +18,7 @@ Controller.prototype = {
     },
     showData(type) {
         if (type === 'all') { return this.showAll() }
-        if (!/^(todo|doing|done)$/.test(type)) throw Error('ShowTypeError')
+        if (!/^(todo|doing|done)$/.test(type)) throw Error('showOptionError')
         this.showEachData(type)
     },
     addData(name, tags) {
@@ -33,7 +33,7 @@ Controller.prototype = {
         this.showFinalResult();
     },
     updateData(id, status) {
-        if (!/^(todo|doing|done)$/.test(status)) throw Error('UpdateStatusError')
+        if (!/^(todo|doing|done)$/.test(status)) throw Error('updateOptionError')
         const changedData = this.model.updateData(id, status);
         setTimeout(() => {
             this.view.showUpdateResult(changedData);

@@ -47,7 +47,7 @@ Model.prototype = {
     },
     getIndex(id) {
         const idx = this.todoList.findIndex(el => el.id === id)
-        if (idx === -1) throw Error('MatchedDataError')
+        if (idx === -1) throw Error('noMatchedIdError')
         return idx
     },
     //recentData = object
