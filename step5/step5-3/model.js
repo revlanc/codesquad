@@ -61,6 +61,7 @@ Model.prototype = {
         if(this.historyStack.length === 0) return console.log('emptyStack')
         const {keyCommand, keyData} = this.historyStack.pop();
         this[keyCommand](...keyData)
+        this.historyStack.pop()
         return ;
     },
     redoData() {
