@@ -13,7 +13,7 @@ const ErrorHandler = function (controller, fontColor) {
 }
 ErrorHandler.prototype = {
     handleError(errorMessage) {
-        if(!this.errorMessage[errorMessage]) return console.log('알수없는 에러!');
+        if (!this.errorMessage[errorMessage]) return console.log('알수없는 에러!');
         if (errorMessage.length === 4) return this.printSameStatusError(errorMessage) //errorMsg가 id이면(4글자) SameStatusError
         return this.printErrorMessage(errorMessage)
     },

@@ -13,6 +13,7 @@ const fontColorBlue = '\x1b[36m%s\x1b[0m';
 const fontColorRed = '\x1b[31m%s\x1b[0m';
 const initialData = [];
 const maxHistoryCapacity = 3;
+
 const util = new Util();
 const model = new Model(initialData, maxHistoryCapacity);
 const view = new View(fontColorBlue);
@@ -32,7 +33,6 @@ const app = {
                 command = this.util.parseCommand(command)
                 const keyCommand = this.util.getKeyCommand(command);
                 const restCommand = command;
-                console.log('입력한 명령: ',keyCommand, restCommand)
                 this.util.checkArgsNumber(keyCommand, restCommand);
                 this.controller[keyCommand](...restCommand);
             }
@@ -53,12 +53,9 @@ app.start()
 
 //설계 컨셉 : 똑똑한 모델, 미니멀한 컨트롤러, 멍청한 뷰
 
-//undo, redo 구현
 //async await 활용하여 rl.prompt finally에 비동기 처리하기
 //class문법으로 마이그레이션
 
-//error던질때 텍스트리터럴로 필요한 메시지 던지는 방법 고려
-//error객체 console.log 합치기
 //초기데이터 받기
 
 //prototype 재정의 할 경우 단점 공부하기 (constructor 속성관련)
