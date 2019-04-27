@@ -1,13 +1,13 @@
-const Util = require('./util');
-const Model = require('./model');
-const View = require('./view');
-const Controller = require('./controller')
-const ErrorHandler = require('./errorHandler')
 const readline = require('readline');
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
+const Util = require('./util');
+const Model = require('./model');
+const View = require('./view');
+const Controller = require('./controller')
+const ErrorHandler = require('./errorHandler')
 
 const fontColorBlue = '\x1b[36m%s\x1b[0m';
 const fontColorRed = '\x1b[31m%s\x1b[0m';
@@ -28,7 +28,8 @@ const app = {
         rl.setPrompt('명령하세요(종료하려면 "q"를 입력하세요) : ')
         rl.prompt()
         rl.on('line', (command) => {
-            if (command === 'q') rl.close()
+            if (command === 'q') rl.close();
+
             try {
                 command = this.util.parseCommand(command)
                 const keyCommand = this.util.getKeyCommand(command);

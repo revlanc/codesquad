@@ -1,10 +1,12 @@
-const Util = function () { }
+const Util = function () {}
+
 Util.prototype = {
     parseCommand(command) {
         if(command === 'undo' || command === 'redo') return [command];
         if (!/\$/.test(command)) throw Error('commandCharError')
         return command.split('$');
     },
+
     getKeyCommand(command) {
         const KeyMap = {
             show: 'showData',
@@ -18,6 +20,7 @@ Util.prototype = {
         if(!KeyMap[keyCommand]) throw Error('wrongCommandError');
         return KeyMap[keyCommand]
     },
+    
     checkArgsNumber(keyCommand, restCommand) {
         const argsNumber = {
             showData: 1,
