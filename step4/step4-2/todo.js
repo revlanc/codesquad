@@ -7,7 +7,7 @@ const rl = readline.createInterface({
 const todos = {
     todolists: [],
 
-    generateID() { return ((1 + Math.random()) * 0x10000 | 0).toString(15).substring(1) },
+    generateID() { return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1) },
 
     getParsedCommand(command, char) { return command = command.split(char) },
 
@@ -88,6 +88,7 @@ const start = () => {
         todos[commandType](...command)
     })
     rl.on('close', () => {
+        console.log('프로그램을 종료합니다')
         process.exit()
     })
 }
