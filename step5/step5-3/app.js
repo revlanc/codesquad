@@ -21,28 +21,24 @@ const controller = new Controller(model, view);
 const errorHandler = new ErrorHandler(controller, fontColorRed);
 
 const app = {
-    util: util,
-    controller: controller,
-    errorHandler: errorHandler,
     start() {
         rl.setPrompt('명령하세요(종료하려면 "q"를 입력하세요) : ')
         rl.prompt()
-        rl.on('line', (command) => {
+        rl.on('line', async (command) => {
             if (command === 'q') rl.close();
 
             try {
-                command = this.util.parseCommand(command)
-                const keyCommand = this.util.getKeyCommand(command);
-                const restCommand = command;
-                this.util.checkArgsNumber(keyCommand, restCommand);
-                this.controller[keyCommand](...restCommand);
+                command = util.parseCommand(command)
+                const keyCommand = util.getKeyCommand(command);
+                util.checkArgsNumber(keyCommand, command);
+                await controller[keyCommand](...command);
             }
             catch (e) {
                 console.log(e)
-                this.errorHandler.handleError(e.message)
+                errorHandler.handleError(e.message)
             }
             finally {
-                setTimeout(() => rl.prompt(), 0)
+                rl.prompt()
             }
         })
         rl.on('close', () => {
@@ -54,7 +50,6 @@ app.start()
 
 //설계 컨셉 : 똑똑한 모델, 미니멀한 컨트롤러, 멍청한 뷰
 
-//async await 활용하여 rl.prompt finally에 비동기 처리하기
 //class문법으로 마이그레이션
 
 //초기데이터 받기

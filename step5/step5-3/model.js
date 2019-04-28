@@ -73,7 +73,7 @@ Model.prototype = {
         this.redoStack.push(this.historyStack.pop());
         return { keyCommand, newData };
     },
-    
+
     redoData() {
         if (this.redoStack.length === 0) throw Error('emptyStackError')
         const { keyCommand, keyData } = this.redoStack.pop();

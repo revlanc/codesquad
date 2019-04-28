@@ -25,32 +25,30 @@ Controller.prototype = {
         this.showEachData(type)
     },
 
-    addData(name, tags) {
+    async addData(name, tags) {
         const id = this.model.makeId()
         const changedData = this.model.addData(name, tags, id);
         this.view.showResult('addData', changedData);
-        this.showFinalResult();
+        await this.makeDelay(1);
+        this.showAll();
     },
 
-    deleteData(id) {
+    async deleteData(id) {
         const changedData = this.model.deleteData(id)
         this.view.showResult('deleteData', changedData);
-        this.showFinalResult();
+        await this.makeDelay(1);
+        this.showAll();
     },
 
-    updateData(id, status) {
+    async updateData(id, status) {
         if (!/^(todo|doing|done)$/.test(status)) throw Error('updateOptionError')
         const changedData = this.model.updateData(id, status);
-        setTimeout(() => {
-            this.view.showResult('updateData', changedData);
-            this.showFinalResult();
-        }, 3000);
+        await this.makeDelay(3);
+        this.view.showResult('updateData', changedData);
+        await this.makeDelay(1);
+        this.showAll();
     },
 
-    showFinalResult() {
-        setTimeout(() => { this.showAll() }, 1000);
-    },
-    
     undo() {
         const data = this.model.undoData();
         this.view.showUndoRedoResult(data);
@@ -59,7 +57,16 @@ Controller.prototype = {
     redo() {
         const data = this.model.redoData();
         this.view.showUndoRedoResult(data);
+    },
+
+    makeDelay(sec) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, sec * 1000);
+        })
     }
+
 }
 
 module.exports = Controller;

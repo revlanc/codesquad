@@ -1,8 +1,8 @@
-const Util = function () {}
+const Util = function () { }
 
 Util.prototype = {
     parseCommand(command) {
-        if(command === 'undo' || command === 'redo') return [command];
+        if (command === 'undo' || command === 'redo') return [command];
         if (!/\$/.test(command)) throw Error('commandCharError')
         return command.split('$');
     },
@@ -13,14 +13,14 @@ Util.prototype = {
             add: 'addData',
             delete: 'deleteData',
             update: 'updateData',
-            undo: 'undo', //추가
-            redo: 'redo' //추가
+            undo: 'undo',
+            redo: 'redo'
         }
         const keyCommand = command.shift();
-        if(!KeyMap[keyCommand]) throw Error('wrongCommandError');
+        if (!KeyMap[keyCommand]) throw Error('wrongCommandError');
         return KeyMap[keyCommand]
     },
-    
+
     checkArgsNumber(keyCommand, restCommand) {
         const argsNumber = {
             showData: 1,
