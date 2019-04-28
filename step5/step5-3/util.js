@@ -1,11 +1,9 @@
-const Util = function () { }
-
-Util.prototype = {
+class Util {
     parseCommand(command) {
         if (command === 'undo' || command === 'redo') return [command];
         if (!/\$/.test(command)) throw Error('commandCharError')
         return command.split('$');
-    },
+    }
 
     getKeyCommand(command) {
         const KeyMap = {
@@ -19,7 +17,7 @@ Util.prototype = {
         const keyCommand = command.shift();
         if (!KeyMap[keyCommand]) throw Error('wrongCommandError');
         return KeyMap[keyCommand]
-    },
+    }
 
     checkArgsNumber(keyCommand, restCommand) {
         const argsNumber = {

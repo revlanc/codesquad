@@ -1,17 +1,17 @@
-const View = function (fontColor) {
-    this.fontColor = fontColor;
-}
-
-View.prototype = {
+class View {
+    constructor  (fontColor) {
+        this.fontColor = fontColor;
+    }
+    
     showAll(countResult) {
         console.log(this.fontColor, '현재상태 : ' + Object.entries(countResult).map(([key, value]) => `${key}: ${value}개`).join(', '))
-    },
-
+    }
+    
     showEachData(status, countNumber, targetData) {
         const str = targetData.map(el => `'${el.name}, ${el.id}번'`).join(', ')
         console.log(this.fontColor, `${status}리스트 : 총 ${countNumber}건 : ${str}`)
-    },
-
+    }
+    
     //changedData = object
     showResult(keyCommand, changedData) {
         const { name, status, id } = changedData;
@@ -21,7 +21,7 @@ View.prototype = {
             updateData: `${name}이(가) ${status}으로 상태가 변경되었습니다.`
         }
         console.log(this.fontColor, msgMap[keyCommand])
-    },
+    }
 
     showUndoRedoResult(data) {
         const { keyCommand, newData } = data;
@@ -34,5 +34,6 @@ View.prototype = {
         console.log(this.fontColor, msgMap[keyCommand])
     }
 }
+
 
 module.exports = View;
