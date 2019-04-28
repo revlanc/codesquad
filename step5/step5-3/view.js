@@ -12,7 +12,6 @@ class View {
         console.log(this.fontColor, `${status}리스트 : 총 ${countNumber}건 : ${str}`)
     }
     
-    //changedData = object
     showResult(keyCommand, changedData) {
         const { name, status, id } = changedData;
         const msgMap = {
