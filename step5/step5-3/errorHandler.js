@@ -14,14 +14,11 @@ class ErrorHandler {
         }
     }
     
-    handleError(errorMessage) {
+    pringErrorMessage(errorMessage) {
         if (errorMessage.length === 4) return this.printSameStatusError(errorMessage) //errorMsg가 id이면(4글자) SameStatusError
         if (!this.errorMessage[errorMessage]) return console.log('알수없는 에러!');
-        return this.printErrorMessage(errorMessage)
-    }
-
-    printErrorMessage(errorMessage) {
         console.log(this.fontColor, this.errorMessage[errorMessage])
+        return;
     }
 
     printSameStatusError(id) {

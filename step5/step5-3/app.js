@@ -12,12 +12,14 @@ const ErrorHandler = require('./errorHandler')
 const fontColorBlue = '\x1b[36m%s\x1b[0m';
 const fontColorRed = '\x1b[31m%s\x1b[0m';
 const initialData = [];
-const maxHistoryCapacity = 3;
+const MAX_HISTORY_CAPACITY = 3;
+const SHOW_DELAY = 1;
+const UPDATE_DELAY = 3;
 
 const util = new Util();
-const model = new Model(initialData, maxHistoryCapacity);
+const model = new Model(initialData, MAX_HISTORY_CAPACITY);
 const view = new View(fontColorBlue);
-const controller = new Controller(model, view);
+const controller = new Controller(model, view, SHOW_DELAY, UPDATE_DELAY);
 const errorHandler = new ErrorHandler(controller, fontColorRed);
 
 const app = {
@@ -34,8 +36,7 @@ const app = {
                 await controller[keyCommand](...command);
             }
             catch (e) {
-                console.log(e)
-                errorHandler.handleError(e.message)
+                errorHandler.pringErrorMessage(e.message)
             }
             finally {
                 rl.prompt()

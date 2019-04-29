@@ -1,11 +1,11 @@
 class Model {
-    constructor (initialData, maxHistoryCapacity) {
+    constructor(initialData, MAX_HISTORY_CAPACITY) {
         this.todoList = initialData;
-        this.maxHistoryCapacity = maxHistoryCapacity;
+        this.MAX_HISTORY_CAPACITY = MAX_HISTORY_CAPACITY;
         this.historyStack = [];
         this.redoStack = [];
     }
-        getId(key, value) {
+    getId(key, value) {
         const targetData = this.todoList.filter(todoData => todoData[key] === value).shift();
         return targetData.id;
     }
@@ -18,7 +18,7 @@ class Model {
             id: id
         }
         this.todoList.push(newData);
-        this.saveHistory('deleteData', [newData.id]);
+        this.saveHistory('deleteData', [id]);
         return newData;
     }
 
@@ -26,7 +26,7 @@ class Model {
         const targetIndex = this.getIndex(id);
         const targetData = this.todoList[targetIndex];
         const [targetTags] = targetData.tags
-        this.saveHistory('addData', [targetData.name, targetTags, targetData.id, targetData.status]);
+        this.saveHistory('addData', [targetData.name, targetTags, id, targetData.status]);
         this.todoList.splice(targetIndex, 1);
         return targetData;
     }
@@ -35,7 +35,7 @@ class Model {
         const targetIndex = this.getIndex(id);
         let targetData = this.todoList[targetIndex];
         if (targetData.status === status) throw Error(id);
-        this.saveHistory('updateData', [targetData.id, targetData.status]);
+        this.saveHistory('updateData', [id, targetData.status]);
         targetData.status = status;
         return targetData;
     }
@@ -44,7 +44,7 @@ class Model {
         return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1)
     }
 
-    countData(status) {
+    getCount(status) {
         return this.getMatchedData(status).length
     }
 
@@ -60,25 +60,33 @@ class Model {
 
     //keyData = object
     saveHistory(keyCommand, keyData) {
-        if (this.historyStack.length >= this.maxHistoryCapacity) this.historyStack.shift();
+        if (this.historyStack.length >= this.MAX_HISTORY_CAPACITY) this.historyStack.shift();
         this.historyStack.push({ keyCommand, keyData })
     }
 
     //keyCommand = string  //keyData = array
-    undoData() {
+    undo() {
         if (this.historyStack.length === 0) throw Error('emptyStackError');
         const previousData = this.historyStack.pop();
         const { keyCommand, keyData } = previousData;
-        const newData = this[keyCommand](...keyData);
-        this.redoStack.push(this.historyStack.pop());
-        return { keyCommand, newData };
+        const recoveredData = this.getRecoveredData(keyCommand, keyData);
+        this.saveDataForRedo();
+        return { keyCommand, recoveredData };
     }
-
-    redoData() {
+    
+    redo() {
         if (this.redoStack.length === 0) throw Error('emptyStackError')
         const { keyCommand, keyData } = this.redoStack.pop();
-        const newData = this[keyCommand](...keyData);
-        return { keyCommand, newData };
+        const recoveredData = this.getRecoveredData(keyCommand, keyData);
+        return { keyCommand, recoveredData };
+    }
+    
+    getRecoveredData(keyCommand, keyData) {
+        return this[keyCommand](...keyData);
+    }
+
+    saveDataForRedo () {
+        this.redoStack.push(this.historyStack.pop());
     }
 }
 
