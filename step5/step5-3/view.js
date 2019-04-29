@@ -23,8 +23,8 @@ class View {
     }
 
     showUndoRedoResult(data) {
-        const { keyCommand, newData } = data;
-        const { name, status, id } = newData;
+        const { keyCommand, recoveredData } = data;
+        const { name, status, id } = recoveredData;
         const msgMap = {
             addData: `${id, name}가 삭제에서 ${status}로 변경되었습니다.`,
             deleteData: `${id, name}가 삭제되었습니다.`,
