@@ -5,7 +5,12 @@ class ArrayParser {
 
     }
 
-    getParsedStr() {
+    tokenize(str) {
+        const token = str.split(',')
+        return token;
+    }
+
+    getParsedStr(str) {
 
     }
 }
