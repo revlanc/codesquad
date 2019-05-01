@@ -2,6 +2,7 @@ const str = "[123, [22, [55], 33], 44, [66], 77]";
 
 class ArrayParser {
     constructor () {
+        this.nodeQueue = []
 
     }
 
@@ -24,8 +25,35 @@ class ArrayParser {
         return token;
     }
 
+    decideType(token) {
+        if(token === '[') {
+            const obj = {
+                type: 'array',
+                child: []
+            }
+            return obj;
+        }
+        if(isFinite(token) && token !== null) {
+            const obj = {
+                type: 'number',
+                value: token,
+                child: []
+            }
+            return obj;
+        }
+        if(token === ']') {
+            const obj = {
+                type: 'end'
+            }
+            return obj;
+        }
+    }
+
     getParsedStr(str) {
         const token = this.tokenize(str);
+        token.forEach(element => {
+            this.nodeQueue.push(this.decideType(element));
+        });
         return token;
     }
 }
