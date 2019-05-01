@@ -5,13 +5,28 @@ class ArrayParser {
 
     }
 
+    insertComma(str) {
+        str = str.replace(/\[/g, '[,');
+        str = str.replace(/\]/g, ',]');
+        return str;
+    }
+
+    removeWhiteSpace(str) {
+        str = str.split(' ');
+        str = str.join('');
+        return str;
+    }
+
     tokenize(str) {
+        str = this.insertComma(str);
+        str = this.removeWhiteSpace(str);
         const token = str.split(',')
         return token;
     }
 
     getParsedStr(str) {
-
+        const token = this.tokenize(str);
+        return token;
     }
 }
 
