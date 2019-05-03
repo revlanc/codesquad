@@ -1,30 +1,27 @@
 const str = "[123, [22, [55], 33], 44, [66], 77]";
 
-class ArrayParser {
-    constructor() {
-        this.nodeQueue = []
-
-    }
-
+class Tokenizer {
     insertComma(str) {
         str = str.replace(/\[/g, '[,');
         str = str.replace(/\]/g, ',]');
         return str;
     }
-
+    
     removeWhiteSpace(str) {
         str = str.split(' ');
         str = str.join('');
         return str;
     }
-
-    tokenize(str) {
+    
+    tokenizeByChar(str, char) {
         str = this.insertComma(str);
         str = this.removeWhiteSpace(str);
-        const token = str.split(',')
+        const token = str.split(char)
         return token;
     }
+}
 
+class Lexer {
     decideType(token) {
         if (token === '[') {
             const obj = {
@@ -48,6 +45,14 @@ class ArrayParser {
             return obj;
         }
     }
+}
+
+class ArrayParser {
+    constructor(tokenizer, lexer) {
+        this.tokenizer = tokenizer;
+        this.lexer = lexer;
+        this.nodeQueue = []
+    }
 
     parseToken(parentNode) {
         const node = this.nodeQueue.shift();
@@ -66,19 +71,21 @@ class ArrayParser {
     }
 
     getParsedStr(str) {
-        const token = this.tokenize(str);
+        const token = this.tokenizer.tokenizeByChar(str, ',');
         token.forEach(element => {
-            this.nodeQueue.push(this.decideType(element));
+            this.nodeQueue.push(this.lexer.decideType(element));
         });
         const rootNode = this.nodeQueue.shift();
-        while (this.nodeQueue.length !== 0) {
+        while (this.nodeQueue.length) {
             this.parseToken(rootNode);
         }
         return rootNode;
     }
 }
 
-const arrayParser = new ArrayParser();
+const tokenizer = new Tokenizer();
+const lexer = new Lexer();
+const arrayParser = new ArrayParser(tokenizer, lexer);
 
 const result = arrayParser.getParsedStr(str);
 console.log(JSON.stringify(result, null, 2));
