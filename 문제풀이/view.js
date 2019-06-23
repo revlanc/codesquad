@@ -1,6 +1,6 @@
 class View {
-  constructor(data) {
-    this.data = data;
+  constructor(ulSelector) {
+    this.ul = ulSelector;
   }
   createDOM(data) {
     let node = '';
@@ -9,9 +9,9 @@ class View {
     }
     return node;
   }
-  display() {
-    const ul = document.querySelector('ul');
-    const dom = this.createDOM(this.data);
+  display(data) {
+    const ul = document.querySelector(this.ul);
+    const dom = this.createDOM(data);
     ul.insertAdjacentHTML('beforeend', dom);
   }
 }
