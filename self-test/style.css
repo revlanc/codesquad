@@ -13,7 +13,11 @@ main {
   display: flex;
   justify-content: center;
   font-size: 2rem;
-  margin: 2rem;
+  padding: 1rem;
+  margin: 1rem;
+}
+header {
+  height: 7.5rem;
 }
 main {
   margin-bottom: 8rem;
