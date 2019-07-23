@@ -6,8 +6,4 @@ export default class Subscriber {
   render(state) {
     console.log(state);
   }
-
-  // shouldRender(newValue, oldValue) {
-  //   return newValue !== oldValue;
-  // }
 }
